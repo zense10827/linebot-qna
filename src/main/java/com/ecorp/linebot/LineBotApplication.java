@@ -36,7 +36,7 @@ public class LineBotApplication {
 		priceMap.put("ไข่ไก่", 3.50);
 		priceMap.put("ไข่เป็ด", 10.25);
 		priceMap.put("ไข่นกกะทา", 25.00);
-		priceMap.put("ไข่ห่าน", 3.22);
+		priceMap.put("ไข่ห่าน", 3.25);
 
 		SpringApplication.run(LineBotApplication.class, args);
 	}
