@@ -149,7 +149,7 @@ public class LineBotApplication {
 						for(String item : sentPrice){
 							sentMsg += item + "\n";
 						}
-						sentMsg = sentMsg.substring(0,sentMsg.length()-2);
+						sentMsg = sentMsg.substring(0,sentMsg.length()-1);
 					}
 					else{
 						String price = priceMap.get(gotMsg);
