@@ -6,6 +6,8 @@ import com.ecorp.linebot.service.MessageService;
 import com.linecorp.bot.model.event.Event;
 import com.linecorp.bot.model.event.MessageEvent;
 import com.linecorp.bot.model.event.message.TextMessageContent;
+import com.linecorp.bot.model.message.ImageMessage;
+import com.linecorp.bot.model.message.Message;
 import com.linecorp.bot.model.message.TextMessage;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
@@ -29,24 +31,30 @@ public class LineBotApplication {
 
 	private RegisterState registerState = RegisterState.None;
 
-	private static Map<String, Double> priceMap = new HashMap<String,Double>();
+	private static Map<String, String> priceMap = new HashMap<String,String>();
 
 	public static void main(String[] args) {
 
-		priceMap.put("ไข่ไก่", 3.50);
-		priceMap.put("ไข่เป็ด", 10.25);
-		priceMap.put("ไข่นกกะทา", 25.00);
-		priceMap.put("ไข่ห่าน", 3.25);
+		priceMap.put("ไข่ไก่", "ฟองละ 3.50 บาทค่ะ");
+		priceMap.put("ไข่เป็ด", "ฟองละ 10.25 บาทค่ะ");
+		priceMap.put("ไข่นกกะทา", "ฟองละ 25.00 บาทค่ะ");
+		priceMap.put("ไข่ห่าน", "ฟองละ 3.25 บาทค่ะ");
 
 		SpringApplication.run(LineBotApplication.class, args);
 	}
 
 	@EventMapping
-	public TextMessage handleTextMessageEvent(MessageEvent<TextMessageContent> event) {
+	public Message handleTextMessageEvent(MessageEvent<TextMessageContent> event) {
 		System.out.println("event: " + event);
 
 		String gotMsg = event.getMessage().getText();
 		String sentMsg = "";
+
+		if(gotMsg.equals("@image")){
+			return new ImageMessage("https://cdn.pixabay.com/photo/2016/06/18/17/42/image-1465348_1280.jpg",
+					"https://cdn.pixabay.com/photo/2016/06/18/17/42/image-1465348_1280.jpg");
+		}
+
 		switch (botState) {
 			case Register:
 
@@ -93,17 +101,18 @@ public class LineBotApplication {
 						}
 					}
 
-					Double price = priceMap.get(gotMsg);
+					String price = priceMap.get(gotMsg);
 					if(price == null){
 						sentMsg = "ขออภัยค่ะ ไม่สามารถประมวลผลได้";
 					}
 					else{
-						sentMsg = price.toString();
+						sentMsg = price;
 					}
 				}
 
 				break;
 		}
+
 		return new TextMessage(sentMsg);
 	}
 
