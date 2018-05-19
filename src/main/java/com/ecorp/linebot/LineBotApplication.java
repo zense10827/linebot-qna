@@ -33,12 +33,18 @@ public class LineBotApplication {
 
 	private static Map<String, String> priceMap = new HashMap<String,String>();
 
+	private static Map<String, String> menuMap = new HashMap<String,String>();
+
 	public static void main(String[] args) {
 
 		priceMap.put("ไข่ไก่", "ฟองละ 3.50 บาทค่ะ");
 		priceMap.put("ไข่เป็ด", "ฟองละ 10.25 บาทค่ะ");
 		priceMap.put("ไข่นกกะทา", "ฟองละ 25.00 บาทค่ะ");
 		priceMap.put("ไข่ห่าน", "ฟองละ 3.25 บาทค่ะ");
+
+		menuMap.put("sizzler", "https://www.sizzler.co.th/storage/upload/201802/1518158751_27867337_1699093963482286_7314833685718772232_n.jpg");
+		menuMap.put("kfc", "http://aroundtheworldtravels.co.uk/wp-content/uploads/2011/06/P1120968.jpg");
+		menuMap.put("mc donald", "https://i2.wp.com/bkkjunk.com/wp-content/uploads/2016/07/2016-06-17-12.42.29.jpg?w=1200");
 
 		SpringApplication.run(LineBotApplication.class, args);
 	}
@@ -51,8 +57,7 @@ public class LineBotApplication {
 		String sentMsg = "";
 
 		if(gotMsg.equals("@image")){
-			return new ImageMessage("https://cdn.pixabay.com/photo/2016/06/18/17/42/image-1465348_1280.jpg",
-					"https://cdn.pixabay.com/photo/2016/06/18/17/42/image-1465348_1280.jpg");
+
 		}
 
 		switch (botState) {
@@ -83,12 +88,45 @@ public class LineBotApplication {
 
 				break;
 
+			case Menu:
+
+				if(gotMsg.equals("@cancel")){
+					botState = BotState.Default;
+					registerState = RegisterState.None;
+					sentMsg = "ออกจากบริการถามเมนูแล้วค่ะ";
+				}
+				else{
+
+					String targetKey = null;
+					for ( String key : menuMap.keySet() ) {
+						if(gotMsg.toLowerCase().contains(key)){
+							targetKey = key;
+							break;
+						}
+					}
+
+					if(targetKey != null){
+						return new ImageMessage(menuMap.get(targetKey), menuMap.get(targetKey));
+					}
+					else{
+						sentMsg = "ไม่พบร้านค้าที่ต้องการค่ะ";
+					}
+
+				}
+
+				break;
+
 			default:
 				if (gotMsg.equals("@register")){
 					botState = BotState.Register;
 					registerState = RegisterState.WaitName;
 					sentMsg = "ยินดีต้อนรับเข้าสู่บริการลงทะเบียน ถ้าต้องการยกเลิกการลงทะเบียนโปรดพิมพ์ @cancel\nโปรดกรอกชื่อด้วยค่ะ";
-				} else {
+				}
+				else if(gotMsg.equals("@menu")){
+					botState = BotState.Menu;
+					sentMsg = "ยินดีต้อนรับเข้าสู่บริการถามเมนู ถ้าต้องการออกจากการถามเมนูโปรดพิมพ์ @cancel";
+				}
+				else {
 
 					botState = BotState.Default;
 					registerState = RegisterState.None;
@@ -97,17 +135,25 @@ public class LineBotApplication {
 
 					for ( String key : priceMap.keySet() ) {
 						if(key.contains(gotMsg)){
-							
+							sentPrice.add(priceMap.get(key));
 						}
 					}
 
-					String price = priceMap.get(gotMsg);
-					if(price == null){
-						sentMsg = "ขออภัยค่ะ ไม่สามารถประมวลผลได้";
+					if(sentPrice.size() > 1){
+						for(String item : sentPrice){
+							sentMsg += item + "\n";
+						}
 					}
 					else{
-						sentMsg = price;
+						String price = priceMap.get(gotMsg);
+						if(price == null){
+							sentMsg = "ขออภัยค่ะ ไม่สามารถประมวลผลได้";
+						}
+						else{
+							sentMsg = price;
+						}
 					}
+					
 				}
 
 				break;

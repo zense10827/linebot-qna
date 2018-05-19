@@ -6,6 +6,8 @@ package com.ecorp.linebot.config;
 public enum BotState {
 
     Register,
+    Price,
+    Menu,
     Default
 
 }
