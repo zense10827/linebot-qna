@@ -34,6 +34,8 @@ public class LineBotApplication {
 	private static Map<String, String> priceMap = new HashMap<String,String>();
 
 	private static Map<String, String> menuMap = new HashMap<String,String>();
+	
+	private static Map<String, String> locationMap = new HashMap<String,String>();
 
 	public static void main(String[] args) {
 
@@ -45,6 +47,10 @@ public class LineBotApplication {
 		menuMap.put("sizzler", "https://www.sizzler.co.th/storage/upload/201802/1518158751_27867337_1699093963482286_7314833685718772232_n.jpg");
 		menuMap.put("kfc", "http://aroundtheworldtravels.co.uk/wp-content/uploads/2011/06/P1120968.jpg");
 		menuMap.put("mc donald", "https://i2.wp.com/bkkjunk.com/wp-content/uploads/2016/07/2016-06-17-12.42.29.jpg?w=1200");
+		
+		locationMap.put("ทีี่ไหนมีของบ้าง", "https://goo.gl/maps/BNRzJ4f8NM52");
+		locationMap.put("ขายที่ไหน", "https://goo.gl/maps/BNRzJ4f8NM52");
+		locationMap.put("ซื้อได้ที่ไหน", "https://goo.gl/maps/2Q5vbk3Qvcs");
 
 		SpringApplication.run(LineBotApplication.class, args);
 	}
