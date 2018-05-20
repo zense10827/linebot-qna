@@ -82,7 +82,7 @@ public class LineBotApplication {
 							break;
 						case WaitBirthDate:
 							registerState = RegisterState.WaitPhoneNumber;
-							sentMsg = "โปรดกรอกวันเกิดด้วยค่ะ";
+							sentMsg = "โปรดกรอกเบอร์โทรด้วยค่ะ";
 							break;
 						case WaitPhoneNumber:
 							botState = BotState.Default;
