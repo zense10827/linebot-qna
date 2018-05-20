@@ -39,10 +39,10 @@ public class LineBotApplication {
 
 	public static void main(String[] args) {
 
-		priceMap.put("ไข่ไก่", "ฟองละ 3.50 บาทค่ะ");
-		priceMap.put("ไข่เป็ด", "ฟองละ 10.25 บาทค่ะ");
-		priceMap.put("ไข่นกกะทา", "ฟองละ 25.00 บาทค่ะ");
-		priceMap.put("ไข่ห่าน", "ฟองละ 3.25 บาทค่ะ");
+		priceMap.put("ไข่ไก่", "ไข่ไก่ - ฟองละ 3.50 บาทค่ะ");
+		priceMap.put("ไข่เป็ด", "ไข่เป็ด - ฟองละ 10.25 บาทค่ะ");
+		priceMap.put("ไข่นกกะทา", "ไข่นกกะทา - ฟองละ 25.00 บาทค่ะ");
+		priceMap.put("ไข่ห่าน", "ไข่ห่าน - ฟองละ 3.25 บาทค่ะ");
 
 		menuMap.put("sizzler", "https://www.sizzler.co.th/storage/upload/201802/1518158751_27867337_1699093963482286_7314833685718772232_n.jpg");
 		menuMap.put("kfc", "http://aroundtheworldtravels.co.uk/wp-content/uploads/2011/06/P1120968.jpg");
@@ -149,6 +149,7 @@ public class LineBotApplication {
 						for(String item : sentPrice){
 							sentMsg += item + "\n";
 						}
+						sentMsg = sentMsg.substring(0,sentMsg.length()-1);
 					}
 					else{
 						String price = priceMap.get(gotMsg);
